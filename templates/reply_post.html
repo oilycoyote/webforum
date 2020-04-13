@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block title %} Posts {% endblock %}
+{% block breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
+    <li class="breadcrumb-item"><a href="#">Topics</a></li>
+    <li class="breadcrumb-item"><a href="#">Posts</a></li>
+  </ol>
+</nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <!--Figure 9: Reply topic screen-->
+    <div class="container">
+        <h2>Figure 9: Reply topic screen</h2>
+        <form>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+        <div class="p-4 card" style="width: 25rem;">
+            <div class="d-flex justify-content-between">
+
+                <p class="card-title">Name</p>
+
+                <p class="font-weight-light">12 minutes ago</p>
+            </div>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Edit</a>
+        </div>
+
+
+    </div>
+
+{% endblock %}

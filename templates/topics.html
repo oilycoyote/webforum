@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+{% block title %} {{ board.name }}'s Topics {% endblock %}
+{% block breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
+    <li class="breadcrumb-item"><a href="#">Topics</a></li>
+  </ol>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+    <!-- Figure 6: Boards project wireframe listing all topics in the Django board.-->
+
+    <div class="container">
+      <h1 class="mt-5">{{ board.name }}'s Topics</h1>
+      <button type="button" class="btn btn-primary">New Topic</button>
+      <table class="mt-5 table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Topic</th>
+              <th scope="col">Starter</th>
+              <th scope="col">Posts</th>
+              <th scope="col">Views</th>
+              <th scope="col">Last Update</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if topics %}
+              {% for topic in topics %}
+                  <tr>
+                      <td>
+                          <h5>{{ topic.subject }}</h5>
+                      </td>
+                      <td>{{ topic.starter}}</td>
+                      <td>{ Posts }</td>
+                      <td>{ Views }</td>
+                      <td>{ Last updated }</td>
+                  </tr>
+              {% endfor %}
+          {% endif %}
+          </tbody>
+      </table>
+  </div>
+    
+{% endblock %}

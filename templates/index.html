@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% block title %} Boards {% endblock %}
+{% block breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active"><a href="{% url 'index' %}">Boards</a></li>
+  </ol>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+    <!-- Content here -->
+    <div class="container">
+        <h1 class="mt-5">Boards</h1>
+        <table class="mt-5 table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Board</th>
+                <th scope="col">Topics</th>
+                <th scope="col">Posts</th>
+                <th scope="col">Last Posts</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% if boards_list %}
+                {% for board in boards_list %}
+                    <tr>
+                        <td scope="row">{{ board.id }}</td>
+                        <td>
+                            <h3><a href=" {% url 'topics' board.id %} " class="primary">{{ board.name }}</a></h3>
+                            <p class="lead">
+                                {{board.description}}
+                              </p>
+                        </td>
+                        <td>{{ board.num_topics }}</td>
+                        <td>112</td>
+                        <td>Last Post</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    
+{% endblock %}
