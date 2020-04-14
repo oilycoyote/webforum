@@ -1,11 +1,12 @@
 {% extends 'base.html'%}
+{% load humanize %}
 {% block title %} Posts {% endblock %}
 {% block breadcrumb %}
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="#">Topics</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'topics' topic.board.id %}">Topics</a></li>
     <li class="breadcrumb-item"><a href="#">Posts</a></li>
   </ol>
 </nav>
@@ -13,30 +14,37 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Figure 8: Topic posts listing screen-->
+
+    <!-- Topic posts listing screen-->
 
     <div class="container">
-        <h2>Figure 8: Topic posts listing screen</h2>
-        <div class="p-4 card">
-            <div class="row">
-                <div class="p-2 col-sm-1">
-                    <img src="https://ci5.googleusercontent.com/proxy/ka8jlvOSg-bi8W7GPrbpQS114Kjkc3ht-eDk_I8c0BkkyT0wD9RQgFbUjrcdtz_Z2N-1zCJ8vGlZ1xDo8AWMDkM22EeBPKmz_cmMGf8NZ990gr9ZgDEvwIDClB2RHg=s0-d-e1-ft#http://juanaguayo.com/base-img/juan-aguayo-pic-email-signature-64x64.png" class="card-img-top rounded-circle">
-                    <div class="badge badge-success text-wrap">
-                        Posts 2
+        <h2 class="mt-5">{{ topic.subject }}'s posts</h2>
+        <button type="button" class="mb-5 btn btn-primary">Reply</button>
+        {% if posts %}
+            {% for post in posts %}
+
+                <div class="p-4 my-3 card">
+                    <div class="row">
+                        <div class="p-2 col-sm-1">
+                            <img src="https://ci5.googleusercontent.com/proxy/ka8jlvOSg-bi8W7GPrbpQS114Kjkc3ht-eDk_I8c0BkkyT0wD9RQgFbUjrcdtz_Z2N-1zCJ8vGlZ1xDo8AWMDkM22EeBPKmz_cmMGf8NZ990gr9ZgDEvwIDClB2RHg=s0-d-e1-ft#http://juanaguayo.com/base-img/juan-aguayo-pic-email-signature-64x64.png" class="card-img-top rounded-circle">
+                            <div class="badge badge-pill badge-success text-wrap">
+                                {{ posts_created_by }} Posts
+                            </div>
+                        </div>
+                        <div class="p-2 col-sm-11">
+                            <div class="d-flex justify-content-between">
+
+                                <p class="card-title font-weight-bold">{{ post.created_by.first_name }} {{ post.created_by.last_name }}</p>
+
+                                <p class="font-weight-light">{{ post.updated_at | naturalday }}</p>
+                            </div>
+                            <p class="card-text">{{ post.message }} </p>
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        </div>
                     </div>
                 </div>
-                <div class="p-2 col-sm-11">
-                    <div class="d-flex justify-content-between">
-
-                        <p class="card-title font-weight-bold">Name</p>
-
-                        <p class="font-weight-light">12 minutes ago</p>
-                    </div>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </p>
-                    <a href="#" class="btn btn-primary">Edit</a>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 {% endblock %}

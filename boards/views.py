@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Board, Topic
+from .models import Board, Topic, Post
 
 
 # Homepage (Boards)
@@ -43,8 +43,23 @@ def new_topic(request):
     return render(request,'new_topic.html')
 
 
-def post(request):
-    return render(request,'post.html')
+def post(request, topic_id):
+    topic = get_object_or_404(Topic, pk=topic_id)
+
+    posts = Post.objects.all().filter(topic=topic)
+
+    posts_created_by = None
+
+    if posts:
+        posts_created_by = len(Post.objects.all().filter(created_by=posts[0].created_by))
+
+    context = {
+        'topic': topic,
+        'posts' : posts,
+        'posts_created_by' :  posts_created_by,
+    }
+
+    return render(request,'post.html', context)
 
 
 def reply_post(request):

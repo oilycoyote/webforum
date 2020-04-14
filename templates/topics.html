@@ -12,12 +12,12 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Figure 6: Boards project wireframe listing all topics in the Django board.-->
+    <!-- Boards project wireframe listing all topics in the Django board.-->
 
     <div class="container">
       <h1 class="mt-5">{{ board.name }}'s Topics</h1>
       <button type="button" class="btn btn-primary">New Topic</button>
-      <table class="mt-5 table table-striped">
+      <table class="my-5 table table-striped">
           <thead class="thead-dark">
             <tr>
               <th scope="col">Topic</th>
@@ -32,7 +32,7 @@
               {% for topic in topics %}
                   <tr>
                       <td>
-                          <h5>{{ topic.subject }}</h5>
+                        <h5><a href=" {% url 'post' topic.id %} " class="primary">{{ topic.subject }}</a></h5>
                       </td>
                       <td>{{ topic.starter}}</td>
                       <td>{ Posts }</td>
