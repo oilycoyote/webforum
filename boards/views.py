@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Board, Topic, Post
+from datetime import datetime
 
 
 # Homepage (Boards)
@@ -11,6 +12,24 @@ def index(request):
     # Appends the number of topics per board
     for board in boards_list:
         board.num_topics= len(Topic.objects.all().filter(board=board))
+
+
+    # Get total posts in a board
+    for board in boards_list:
+        board_topics = board.topics.all()
+        total_posts = 0
+        for topic in board_topics:
+            total_posts = total_posts + len(topic.posts.all())
+        board.total_posts = total_posts
+
+    # Get last updated post // NO ESTÁ RESUELTO
+    for board in boards_list:
+        board_topics = board.topics.all()
+        for topic in board_topics:
+            board.last_updated_post = Post.objects.all().order_by('-created_at').filter(topic=topic).first()
+            print(board.last_updated_post)
+        
+
 
     # Context to be passed to the template
     context = {
@@ -28,6 +47,11 @@ def topics(request, board_id):
 
     # Get topics per board
     topics = Topic.objects.all().filter(board=board)
+
+    # Get posts pero topic    
+    for topic in topics:
+        topic.posts_published = len(topic.posts.all())
+
 
     # Context to be passed to the template
     context = {

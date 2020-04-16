@@ -35,7 +35,7 @@
                         <h5><a href=" {% url 'post' topic.id %} " class="primary">{{ topic.subject }}</a></h5>
                       </td>
                       <td>{{ topic.starter}}</td>
-                      <td>{ Posts }</td>
+                      <td>{{ topic.posts_published }}</td>
                       <td>{ Views }</td>
                       <td>{ Last updated }</td>
                   </tr>
