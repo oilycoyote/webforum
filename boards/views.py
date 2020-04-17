@@ -16,20 +16,12 @@ def index(request):
 
     # Get total posts in a board
     for board in boards_list:
-        board_topics = board.topics.all()
-        total_posts = 0
-        for topic in board_topics:
-            total_posts = total_posts + len(topic.posts.all())
-        board.total_posts = total_posts
+        board.total_posts = len(Post.objects.all().filter(board=board))
 
-    # Get last updated post // NO ESTÁ RESUELTO
+    # Get last updated post
     for board in boards_list:
-        board_topics = board.topics.all()
-        for topic in board_topics:
-            board.last_updated_post = Post.objects.all().order_by('-created_at').filter(topic=topic).first()
-            print(board.last_updated_post)
-        
-
+        board.post_last_modified = Post.objects.all().filter(board=board).order_by('-updated_at').first()
+     
 
     # Context to be passed to the template
     context = {

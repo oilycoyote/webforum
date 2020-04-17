@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+{% load humanize %}
 {% block title %} Boards {% endblock %}
 {% block breadcrumb %}
 
@@ -21,7 +22,7 @@
                 <th scope="col">Board</th>
                 <th scope="col">Topics</th>
                 <th scope="col">Posts</th>
-                <th scope="col">Last Posts</th>
+                <th scope="col">Last Updated</th>
               </tr>
             </thead>
             <tbody>
@@ -37,7 +38,11 @@
                         </td>
                         <td>{{ board.num_topics }}</td>
                         <td>{{ board.total_posts }}</td>
-                        <td>Last Post</td>
+                        {% if board.post_last_modified %}
+                          <td>{{ board.post_last_modified.updated_at | naturaltime }} by {{ board.post_last_modified.updated_by.first_name }} {{ board.post_last_modified.updated_by.last_name }}</td>
+                        {% else %}
+                          <td>No posts in this board yet.</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             {% endif %}
