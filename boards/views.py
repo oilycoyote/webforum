@@ -40,9 +40,14 @@ def topics(request, board_id):
     # Get topics per board
     topics = Topic.objects.all().filter(board=board)
 
-    # Get posts pero topic    
+    # Get last updated post
+    for topic in topics:
+        topic.post_last_modified = Post.objects.all().filter(topic=topic).order_by('-updated_at').first()
+
+    # Get posts per topic    
     for topic in topics:
         topic.posts_published = len(topic.posts.all())
+
 
 
     # Context to be passed to the template
@@ -58,10 +63,14 @@ def topics(request, board_id):
 def new_topic(request):
     return render(request,'new_topic.html')
 
-
+# Gets posts of a topic
 def post(request, topic_id):
+    
     topic = get_object_or_404(Topic, pk=topic_id)
 
+    topic.views_counter = topic.views_counter + 1
+    topic.save()
+    
     posts = Post.objects.all().filter(topic=topic)
 
     posts_created_by = None

@@ -1,4 +1,5 @@
 {% extends 'base.html'%}
+{% load humanize %}
 {% block title %} {{ board.name }}'s Topics {% endblock %}
 {% block breadcrumb %}
 
@@ -36,8 +37,8 @@
                       </td>
                       <td>{{ topic.starter}}</td>
                       <td>{{ topic.posts_published }}</td>
-                      <td>{ Views }</td>
-                      <td>{ Last updated }</td>
+                      <td>{{ topic.views_counter }}</td>
+                      <td>{{ topic.post_last_modified.updated_at | naturaltime  }} by {{ topic.post_last_modified.updated_by.first_name }} {{ topic.post_last_modified.updated_by.last_name }} </td>
                   </tr>
               {% endfor %}
           {% endif %}
