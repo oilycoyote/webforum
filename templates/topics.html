@@ -38,7 +38,13 @@
                       <td>{{ topic.starter}}</td>
                       <td>{{ topic.posts_published }}</td>
                       <td>{{ topic.views_counter }}</td>
-                      <td>{{ topic.post_last_modified.updated_at | naturaltime  }} by {{ topic.post_last_modified.updated_by.first_name }} {{ topic.post_last_modified.updated_by.last_name }} </td>
+                      <td>
+                        {% if topic.post_last_modified %}
+                          {{ topic.post_last_modified.updated_at | naturaltime  }} by {{ topic.post_last_modified.updated_by.first_name }} {{ topic.post_last_modified.updated_by.last_name }}
+                        {% else %} 
+                          No posts in this topic yet.
+                        {% endif %}
+                      </td>
                   </tr>
               {% endfor %}
           {% endif %}

@@ -67,9 +67,6 @@ def new_topic(request):
 def post(request, topic_id):
     
     topic = get_object_or_404(Topic, pk=topic_id)
-
-    topic.views_counter = topic.views_counter + 1
-    topic.save()
     
     posts = Post.objects.all().filter(topic=topic)
 
@@ -77,6 +74,8 @@ def post(request, topic_id):
 
     if posts:
         posts_created_by = len(Post.objects.all().filter(created_by=posts[0].created_by))
+        topic.views_counter = topic.views_counter + 1
+        topic.save()
 
     context = {
         'topic': topic,
