@@ -15,10 +15,28 @@
 {% block content %}
     <!-- Content here -->
     <div class="container">
-        <h1 class="mt-5">Profile</h1>
-            <h2>Welcome {{user.first_name}}!</h2>
+        <h1 class="mt-5">Welcome {{user.first_name}}!</h1>
             <p class="text-left">Please set up your profile.</p>
-            <div class="border-top pt-3 ">
+            <div class="media">
+              <img class="rounded-circle account-img mr-4" src="{{ user.profile.image.url }}">
+              <div class="media-body">
+                <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }}</h2>
+                <p class="text-secondary">{{ user.username }}</p>
+                <p class="text-secondary">{{ user.email }}</p>
+              </div>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                  <legend class="border-bottom mb-4" >Profile Info.</legend>
+                  {{ u_form | crispy }}
+                  {{ p_form | crispy }}
+              </fieldset>
+              <div class="form-group">
+                  <button class="btn btn-outline-info" type="submit">Update</button>
+              </div>
+            </form>
+            <div class="border-top py-3 ">
                 <small class="text-muted">
                     Want to log out? <a href="{% url 'logout' %}" class="ml-2">Logout</a>
                 </small>
