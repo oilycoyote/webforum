@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block title %} Boards {% endblock %}
+{% block breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active"><a href="{% url 'index' %}">Boards</a></li>
+  </ol>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+    <!-- Content here -->
+    <div class="container">
+        <h1 class="mt-5">Profile</h1>
+            <h2>Welcome {{user.first_name}}!</h2>
+            <p class="text-left">Please set up your profile.</p>
+            <div class="border-top pt-3 ">
+                <small class="text-muted">
+                    Want to log out? <a href="{% url 'logout' %}" class="ml-2">Logout</a>
+                </small>
+            </div>
+    </div>
+
+    
+{% endblock %}

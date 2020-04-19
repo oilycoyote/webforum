@@ -28,7 +28,7 @@ def index(request):
         'boards_list': boards_list,
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'boards/index.html', context)
 
 
 # Topic's Page
@@ -57,11 +57,11 @@ def topics(request, board_id):
     }
 
 
-    return render(request,'topics.html', context)
+    return render(request,'boards/topics.html', context)
 
 
 def new_topic(request):
-    return render(request,'new_topic.html')
+    return render(request,'boards/new_topic.html')
 
 # Gets posts of a topic
 def post(request, topic_id):
@@ -83,8 +83,8 @@ def post(request, topic_id):
         'posts_created_by' :  posts_created_by,
     }
 
-    return render(request,'post.html', context)
+    return render(request,'boards/post.html', context)
 
 
 def reply_post(request):
-    return render(request,'reply_post.html')
+    return render(request,'boards/reply_post.html')
