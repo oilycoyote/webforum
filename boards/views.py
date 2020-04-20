@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Board, Topic, Post
 from datetime import datetime
@@ -63,26 +63,38 @@ def topics(request, board_id):
     return render(request,'boards/topics.html', context)
 
 @login_required
-def new_topic(request):
+def new_topic(request, board_id):
+    
+    board = get_object_or_404(Board, pk=board_id)
+    
     if request.method == 'POST':
-        print('Fue por POST')
         topic_form = TopicNewForm(request.POST)
         post_form = PostNewForm(request.POST)
 
         if topic_form.is_valid() and post_form.is_valid():
-            topic_form.save()
-            post_form.save()
+            my_topic = topic_form.save(commit=False)
+            my_topic.board = Board.objects.all().filter(id=board_id).first()
+            my_topic.starter = request.user
+            my_topic.save()            
+
+            my_post = post_form.save(commit=False)
+            my_post.topic = Topic.objects.all().filter(id=my_topic.id).first()
+            my_post.board = Board.objects.all().filter(id=board_id).first()
+            my_post.created_by = request.user
+            my_post.save()
+            
             topic_subject = topic_form.cleaned_data.get('subject')
-            messages.success(request, f'Subject posted: { topic_subject}')
-            return redirect('index')
+            messages.success(request, f'Subject posted: {topic_subject}')
+            return redirect('post', topic_id=my_topic.id)
+    
     else:        
-        print('Fue por GET')
-        topic_form = TopicNewForm
-        post_form = PostNewForm
+        topic_form = TopicNewForm()
+        post_form = PostNewForm()
 
         context = {
             'topic_form' : topic_form,
             'post_form' : post_form,
+            'board' : board,
         }
 
         return render(request,'boards/new_topic.html', context)

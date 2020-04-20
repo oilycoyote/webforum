@@ -6,8 +6,8 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'topics' topic.board.id %}">Topics</a></li>
-    <li class="breadcrumb-item"><a href="#">Posts</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'topics' topic.board.id %}">{{ topic.board.name }}</a></li>
+    <li class="breadcrumb-item">{{ topic.subject }}</li>
   </ol>
 </nav>
 
@@ -36,7 +36,7 @@
 
                                 <p class="card-title font-weight-bold">{{ post.created_by.first_name }} {{ post.created_by.last_name }}</p>
 
-                                <p class="font-weight-light">{{ post.updated_at | naturalday }}</p>
+                                <p class="font-weight-light">{{ post.updated_at | naturaltime }}</p>
                             </div>
                             <p class="card-text">{{ post.message }} </p>
                             <a href="#" class="btn btn-primary">Edit</a>

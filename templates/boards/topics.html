@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
-    <li class="breadcrumb-item"><a href="#">Topics</a></li>
+    <li class="breadcrumb-item">Topics</li>
   </ol>
 </nav>
 
@@ -17,7 +17,7 @@
 
     <div class="container">
       <h1 class="mt-5">{{ board.name }}'s Topics</h1>
-      <button type="button" class="btn btn-primary">New Topic</button>
+      <a class="btn btn-primary" href=" {% url 'new_topic' board.id %}" role="button">New Topic</a>
       <table class="my-5 table table-striped">
           <thead class="thead-dark">
             <tr>
