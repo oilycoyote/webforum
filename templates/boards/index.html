@@ -39,7 +39,12 @@
                         <td>{{ board.num_topics }}</td>
                         <td>{{ board.total_posts }}</td>
                         {% if board.post_last_modified %}
-                          <td>{{ board.post_last_modified.updated_at | naturaltime }} by {{ board.post_last_modified.updated_by.first_name }} {{ board.post_last_modified.updated_by.last_name }}</td>
+                          <td>{{ board.post_last_modified.updated_at | naturaltime }} by 
+                            {% if board.post_last_modified.updated_by %}
+                              {{ board.post_last_modified.updated_by.first_name }} {{ board.post_last_modified.updated_by.last_name }}</td>
+                            {% else %}
+                              {{ board.post_last_modified.created_by.first_name }} {{ board.post_last_modified.created_by.last_name }}</td>
+                            {% endif %}
                         {% else %}
                           <td>No posts in this board yet.</td>
                         {% endif %}

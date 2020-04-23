@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Board, Topic, Post
-from datetime import datetime
+# from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from .forms import TopicNewForm, PostNewForm
 from django.contrib import messages
@@ -19,14 +19,35 @@ def index(request):
 
     # Gets total posts in a board
     for board in boards_list:
-        board.total_posts = len(Post.objects.all().filter(board=board))
+        board.total_posts = 0
 
-    # Gets last updated post
+        topics_in_board = Topic.objects.all().filter(board=board)
+        
+        for topic in topics_in_board:
+            
+            posts_in_topic = Post.objects.all().filter(topic=topic)
+            board.total_posts += len(posts_in_topic)
+
+
+    # Gets last updated post    
     for board in boards_list:
-        board.post_last_modified = Post.objects.all().filter(board=board).order_by('-updated_at').first()
+
+        # Picks one to be able to compare and attach object to outter loop.
+        board.post_last_modified = Post.objects.all().first()
+
+        topics_in_board = Topic.objects.all().filter(board=board)
+        
+        for topic in topics_in_board:
+            
+            latest_post = Post.objects.all().filter(topic=topic).order_by('-updated_at').first()
+
+            if latest_post is not None:
+                # Compares new latest date with saved date. Saves latest date. 
+                if latest_post.updated_at > board.post_last_modified.updated_at:
+                    board.post_last_modified = latest_post    
      
 
-    # Context to be passed to the template
+    # Context to pass to template
     context = {
         'boards_list': boards_list,
     }
@@ -59,8 +80,8 @@ def topics(request, board_id):
         'topics' : topics,
     }
 
-
     return render(request,'boards/topics.html', context)
+
 
 # Post new topic
 @login_required
@@ -85,7 +106,7 @@ def new_topic(request, board_id):
             # Saves data to post model (new instance of post) The first post required to create a new topic         
             my_post = post_form.save(commit=False)
             my_post.topic = Topic.objects.all().filter(id=my_topic.id).first()
-            my_post.board = Board.objects.all().filter(id=board_id).first()
+            my_post.board = my_post.topic.board
             my_post.created_by = request.user
             my_post.save()
             
@@ -93,8 +114,9 @@ def new_topic(request, board_id):
             topic_subject = topic_form.cleaned_data.get('subject')
             messages.success(request, f'Subject posted: {topic_subject}')
             return redirect('post', topic_id=my_topic.id)
-    
-    # Gets form and sends to template.
+
+
+    # Gets form and sends to template. (Method: GET)
     else:        
         topic_form = TopicNewForm()
         post_form = PostNewForm()
@@ -132,18 +154,31 @@ def post(request, topic_id):
 
 def reply_post(request, topic_id):
 
-    topic_of_posts = get_object_or_404(Topic, pk=topic_id)
-    related_posts = topic_of_posts.posts.all().order_by('-created_at')
+    if request.method == 'POST':
+        reply_post_form = PostNewForm(request.POST)
 
-    context = {
-        'related_posts' : related_posts,
-        'topic_of_posts' : topic_of_posts,
+        if reply_post_form.is_valid():
+            new_post = reply_post_form.save(commit=False)
+            new_post.topic = Topic.objects.get(id=topic_id)
+            new_post.created_by = request.user
+            new_post.save()
 
-    }
-
-    print(related_posts)
-    print(topic_of_posts.board)
-    print(topic_of_posts.subject)
+            # Success message and redirect to post created.
+            messages.success(request, f'Thank you. Your reply has been posted')
+            return redirect('post', topic_id=new_post.topic.id)
 
 
-    return render(request,'boards/reply_post.html', context)
+    else: 
+        reply_post_f = PostNewForm()
+        
+        
+        topic_of_posts = get_object_or_404(Topic, pk=topic_id)
+        related_posts = topic_of_posts.posts.all().order_by('-created_at')
+
+        context = {
+            'reply_post_f' : reply_post_f,
+            'related_posts' : related_posts,
+            'topic_of_posts' : topic_of_posts,
+        }
+
+        return render(request,'boards/reply_post.html', context)

@@ -40,7 +40,12 @@
                       <td>{{ topic.views_counter }}</td>
                       <td>
                         {% if topic.post_last_modified %}
-                          {{ topic.post_last_modified.updated_at | naturaltime  }} by {{ topic.post_last_modified.updated_by.first_name }} {{ topic.post_last_modified.updated_by.last_name }}
+                          {{ topic.post_last_modified.updated_at | naturaltime  }} by 
+                          {% if topic.post_last_modified.updated_by %}
+                            {{ topic.post_last_modified.updated_by.first_name }} {{ topic.post_last_modified.updated_by.last_name }}
+                          {% else %}
+                            {{ topic.post_last_modified.created_by.first_name }} {{ topic.post_last_modified.created_by.last_name }}
+                          {% endif %}
                         {% else %} 
                           No posts in this topic yet.
                         {% endif %}

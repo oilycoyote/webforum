@@ -19,13 +19,15 @@
     <!--Figure 9: Reply topic screen-->
     <div class="container">
         <h2> <a href="{% url 'index' %}">Boards</a> / <a href="{% url 'topics' topic_of_posts.board.id %}">{{topic_of_posts.board}}</a> / <a href="{% url 'post' topic_of_posts.id %}">{{topic_of_posts.subject}}</a> / Reply </h2>
-        <form>
-            <div class="form-group">
-              <label>Message</label>
-              <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-outline-info my-1">Post</button>
-        </form>
+        <form method="POST">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4" >Post a new topic in {{ board.name }} discussion board.</legend>
+              {{ reply_post_f | crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Post Reply</button>
+          </div>
 
         {% for post in related_posts %}
         <div class="my-5 p-4 card" style="">
