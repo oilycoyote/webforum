@@ -15,9 +15,8 @@ class TopicAdmin(admin.ModelAdmin):
     list_per_page = 20
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('topic', 'board', 'message', 'created_by', 'created_at',)
+    list_display = ('topic', 'message', 'created_by', 'created_at',)
     list_display_links = ('topic', 'message',)
-    list_editable = ('board',)
     search_fields = ('message', 'created_by',)
     list_filter = ('topic',)
     list_per_page = 20
