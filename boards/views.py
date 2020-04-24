@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Board, Topic, Post
 # from datetime import datetime
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from .forms import TopicNewForm, PostNewForm
 from django.contrib import messages
 
@@ -185,7 +185,9 @@ def reply_post(request, topic_id):
         return render(request,'boards/reply_post.html', context)
 
 
-@login_required    
+@login_required
+@permission_required()
+    
 def edit_post(request, post_id):
 
     post_to_edit = get_object_or_404(Post, pk=post_id)

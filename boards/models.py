@@ -29,6 +29,12 @@ class Post(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='posts')
     updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='+')
 
+    class Meta:
+        permissions = (
+            ('edit_post', 'Edit post'),
+        )
+    
+    
     def __str__(self):
         return self.message
 
