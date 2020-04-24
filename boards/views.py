@@ -152,6 +152,7 @@ def post(request, topic_id):
     return render(request,'boards/post.html', context)
 
 
+@login_required
 def reply_post(request, topic_id):
 
     if request.method == 'POST':
@@ -182,3 +183,34 @@ def reply_post(request, topic_id):
         }
 
         return render(request,'boards/reply_post.html', context)
+
+
+@login_required    
+def edit_post(request, post_id):
+
+    post_to_edit = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        edit_post_f = PostNewForm(request.POST, instance=post_to_edit)
+
+        if edit_post_f.is_valid():
+            new_post = edit_post_f.save()
+
+            messages.success(request, f'Thank you. Your post has been edited succesfully.')
+            return redirect('post', topic_id=new_post.topic.id)
+
+    else:
+        edit_post_f = PostNewForm(instance=post_to_edit)
+
+    related_posts = post_to_edit.topic.posts.all().order_by('-created_at')
+
+    context = {
+        'post_to_edit' : post_to_edit,
+        'edit_post_f' : edit_post_f,
+        'related_posts': related_posts,
+    }
+    
+    return render(request, 'boards/edit_post.html', context)
+
+
+

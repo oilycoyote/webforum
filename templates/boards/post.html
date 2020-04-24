@@ -39,7 +39,7 @@
                                 <p class="font-weight-light">{{ post.updated_at | naturaltime }}</p>
                             </div>
                             <p class="card-text">{{ post.message }} </p>
-                            <a href="#" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'edit_post' post.id %}" class="btn btn-primary">Edit</a>
                         </div>
                     </div>
                 </div>

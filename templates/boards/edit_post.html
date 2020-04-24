@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block title %} Posts {% endblock %}
+{% block breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index' %}">Boards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'topics' post_to_edit.topic.board.id %}">{{ post_to_edit.topic.board }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'post' post_to_edit.topic.id %}">{{ post_to_edit.topic.subject }}</a></li>
+  </ol>
+</nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <!--Figure 9: Reply topic screen-->
+    <div class="container">
+        <h2> <a href="{% url 'index' %}">Boards</a> / <a href="{% url 'topics' post_to_edit.topic.board.id %}">{{ post_to_edit.topic.board }}</a> / <a href="{% url 'post' post_to_edit.topic.id %}">{{ post_to_edit.topic.subject }}</a> / Edit Post </h2>
+        <form method="POST">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4" >Edit post in {{ post_to_edit.topic.board.name }} discussion board.</legend>
+              {{ edit_post_f | crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" type="submit">Post Reply</button>
+          </div>
+
+        {% for post in related_posts %}
+        <div class="my-4 p-4 card 
+          {% if post.id == post_to_edit.id %}
+            border border-warning
+          {% endif %}          
+          ">
+
+          {% if post.id == post_to_edit.id %}
+            <p class="badge badge-pill badge-warning py-2">You are editing this post.</p>
+          {% endif %}
+
+            <div class="d-flex justify-content-between">
+
+                <p class="card-title font-weight-bold">{{ post.created_by.first_name }} {{ post.created_by.last_name }}</p>
+
+                <p class="font-weight-light">{{ post.created_at | naturaltime }}</p>
+            </div>
+            <p class="card-text">{{ post.message }}</p>
+        </div>
+        {% endfor %}
+
+
+    </div>
+
+{% endblock %}
