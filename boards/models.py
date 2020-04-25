@@ -27,13 +27,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='posts')
-    updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='+')
-
-    class Meta:
-        permissions = (
-            ('edit_post', 'Edit post'),
-        )
-    
+    updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, related_name='+')    
     
     def __str__(self):
         return self.message
