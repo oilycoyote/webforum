@@ -2,3 +2,7 @@ img.rounded-circle.account-img {
     width: 75px;
     height: 75px;
 }
+
+img.card-img-top.rounded-circle {
+    width: 75px;
+}
