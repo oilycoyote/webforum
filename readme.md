@@ -1,4 +1,4 @@
-# WEBFORUM
+# Webforum
 
 Forum application with board, topics and posts. Built with Django.  
 
@@ -30,7 +30,9 @@ Webforum 1.0
 
 ## Authors
 
-* **Juan Aguayo** - *Initial work* - [oilycoyote](https://github.com/oilycoyote)
+* **Juan Aguayo**
+    [Personal Website](https:www.juanaguayo.com)
+    [Github](https://github.com/oilycoyote)
 
 ## License
 
@@ -38,6 +40,7 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 
-* Webforum was based on tutorial wireframes [Webforum Idea](https://simpleisbetterthancomplex.com/series/2017/09/11/a-complete-beginners-guide-to-django-part-2.html)
+* Webforum was based on tutorial wireframes [Webforum Idea](https://simpleisbetterthancomplex.com/series/2017/09/11/a-complete-beginners-guide-to-django-part-2.html) from [Simple is Better Than Complex](https://simpleisbetterthancomplex.com/) by [Vitor Freitas](https://simpleisbetterthancomplex.com/about/)
 * Development was 90% done based on those wireframes. (As a test of my learning process)
+* Special thanks to [Brad Traversy](https://www.traversymedia.com/) for his Udemy course [Python Django Dev To Deployment](https://www.udemy.com/course/python-django-dev-to-deployment/). 
 
